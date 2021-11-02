@@ -1,0 +1,32 @@
+#include <LiquidCrystal.h>
+int sensorPin=A1;
+float ForceValue=0;
+float res=0;
+int lbs=0;
+float N=0;
+float vin=0;
+LiquidCrystal lcd(12,11,5,4,3,2);
+int redLed=8;
+void setup()
+{
+  Serial.begin(9600);
+  lcd.begin(16,2);
+  pinMode(sensorPin,INPUT);
+  pinMode(redLed,OUTPUT);
+}
+void loop()
+{
+   ForceValue=analogRead(sensorPin);
+  vin = (ForceValue*5)/1023;
+   res=150*((5/vin)-1);
+   N= (pow(res/6.039,-1.4144))*1.8;
+   lbs=N*.224;
+  lcd.setCursor(0,0);
+  lcd.print("Edgar Violante");
+  lcd.setCursor(0,1);
+  lcd.print("N =");
+  lcd.print(N);
+  lcd.setCursor(9,1);
+  lcd.print("Lb=");
+  lcd.print(lbs);
+}
